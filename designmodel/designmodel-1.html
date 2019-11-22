@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>设计模式</title>
+    <title>设计模式-观察者模式</title>
 </head>
 <body>
 <button id="addNewObserver">Add New Observer checkbox</button>
@@ -119,6 +119,7 @@
 
     //点击checkbox 将会触发对观察者的通知
     controlCheckbox["onclick"] = new Function( "controlCheckbox.Notify(controlCheckbox.checked)" );
+    // ==> ƒ anonymous() {controlCheckbox.Notify(controlCheckbox.checked)}
 
     addBtn["onclick"] = AddNewObserver;
 
