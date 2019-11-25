@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>call-bind-apply</title>
+</head>
+<body>
+<script>
+    let person = {
+        firstName: 'A',
+        secondName: 'B',
+        fullName: function () {
+            return this.firstName + ' ' + this.secondName;//A B
+        }
+    };
+    console.log(person.fullName());
+
+    let personD = {
+        firstName: 'D',
+        secondName: 'D',
+        fullName: function () {
+            console.log('DDDD')
+        }
+    };
+    console.log(person.fullName.call(personD));//D D, personD调用了person的fullName方法
+    personD.fullName();// DDDD
+    
+    // 带参数的
+    
+    let people = {
+        name: 'P',
+        age: '3',
+        fullInfo: function (city, gender) {
+            console.log(`name:${this.name},age:${this.age},city:${city},gender:${gender}`)
+        }
+    }
+    people.fullInfo()
+    let peopleA = {
+        name: 'A',
+        age: '9'
+    }
+    people.fullInfo.call(peopleA,'ShenZhen','girl');
+    people.fullInfo.apply(peopleA,['ShenZhen','girl']);
+</script>
+</body>
+</html>
