@@ -69,11 +69,12 @@
 
 	Particle.prototype.draw = function() {
 		// Draw particle
-		this.ctx.beginPath();
+		this.ctx.beginPath();// 清空子路径列表开始一个新的路径。当你想创建一个新的路径时，调用此方法。
 		this.ctx.fillStyle = this.particleColor;
 		this.ctx.globalAlpha = this.opacity;
+		//绘制一段圆弧路径， 圆弧路径的圆心在 (x, y) 位置，半径为 r ，根据anticlockwise （默认为顺时针）指定的方向从 startAngle 开始绘制，到 endAngle 结束。
 		this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-		this.ctx.fill();
+		this.ctx.fill();// 使用当前的样式填充子路径。
 	};
 
 	// 网状粒子
@@ -158,7 +159,7 @@
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.ctx.globalAlpha = 1;
 
-			// Draw connections
+			// Draw connections 即画线
 			for (var i = 0; i < this.particles.length; i++) {
 				for (var j = this.particles.length - 1; j > i; j--) {
 					var distance, p1 = this.particles[i], p2 = this.particles[j];
@@ -178,17 +179,22 @@
 						continue;
 					}
 
-					this.ctx.beginPath();
-					this.ctx.strokeStyle = this.options.netLineColor;
+					this.ctx.beginPath();//清空子路径列表开始一个新的路径。当你想创建一个新的路径时，调用此方法。
+					this.ctx.strokeStyle = this.options.netLineColor;//图形边线的颜色和样式。 默认 #000 (黑色).
+					/*
+					* 在合成到 canvas 之前，设置图形和图像透明度的值。默认 1.0 (不透明)。
+					* 该公式表示点与点之间的距离越大，透明度越小，直至透明
+					* */
 					this.ctx.globalAlpha = (this.options.netLineDistance - distance) / this.options.netLineDistance * p1.opacity * p2.opacity;
 					this.ctx.lineWidth = 0.7;
-					this.ctx.moveTo(p1.x, p1.y);
-					this.ctx.lineTo(p2.x, p2.y);
-					this.ctx.stroke();
+					/*划线：起点为P1，终点为P2的直线*/
+					this.ctx.moveTo(p1.x, p1.y);// 将一个新的子路径的起始点移动到(x，y)坐标。
+					this.ctx.lineTo(p2.x, p2.y);// 使用直线连接子路径的最后的点到x,y坐标。
+					this.ctx.stroke();// 使用当前的样式描边子路径。
 				}
 			}
 
-			// Draw particles
+			// Draw particles 即画粒子
 			for (var i = 0; i < this.particles.length; i++) {
 				this.particles[i].update();
 				this.particles[i].draw();
@@ -296,11 +302,11 @@
 		}
 	};
 
-	// 生成最大值最小值间的随机数
+	// 生成最大值最小值间的随机数,根据标志确定是否转换为整数
 	var getLimitedRandom = function(min, max, roundToInteger) {
-		var number = Math.random() * (max - min) + min;
+		var number = Math.random() * (max - min) + min;//随机数 小数
 		if (roundToInteger) {
-			number = Math.round(number);
+			number = Math.round(number); // 把数四舍五入为最接近的整数。
 		}
 		return number;
 	};
